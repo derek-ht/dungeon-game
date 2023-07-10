@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.SwampTileTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:16" hostname="vx02" time="0.477">
+  <properties/>
+  <testcase name="Spider moves through swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.036"/>
+  <testcase name="Hostile mercenary moves through swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.023"/>
+  <testcase name="Mercenary pathfinding accounts for swamp path" classname="dungeonmania.mvp.SwampTileTest" time="0.055"/>
+  <testcase name="Adjacent ally moves through swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.065"/>
+  <testcase name="Zombie moves through swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.055"/>
+  <testcase name="Non adjacent ally moves through swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.039"/>
+  <testcase name="Hostile mercenary gets stuck in 2 swamp tiles" classname="dungeonmania.mvp.SwampTileTest" time="0.027"/>
+  <testcase name="Player moves through swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.037"/>
+  <testcase name="Hostile mercenary spawns on swamp tile" classname="dungeonmania.mvp.SwampTileTest" time="0.054"/>
+  <testcase name="Zombie spawned on to swamp tile should be stuck" classname="dungeonmania.mvp.SwampTileTest" time="0.045"/>
+  <testcase name="Ally pathfinding accounts for swamp path" classname="dungeonmania.mvp.SwampTileTest" time="0.022"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 15 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 9 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 10 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 9 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 27 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 15 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 12 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 38 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 14 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 13 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 14 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 10 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 13 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 27 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 13 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 8 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 8 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

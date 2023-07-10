@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Game.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania</a> &gt; <span class="el_source">Game.java</span></div><h1>Game.java</h1><pre class="source lang-java linenums">package dungeonmania;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.UUID;
+
+import dungeonmania.battles.BattleFacade;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.EntityFactory;
+import dungeonmania.entities.Interactable;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.collectables.SunStone;
+import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.collectables.potions.Potion;
+import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.entities.inventory.InventoryItem;
+import dungeonmania.exceptions.InvalidActionException;
+import dungeonmania.goals.Goal;
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
+
+public class Game implements Serializable {
+    private String id;
+    private String name;
+    private Goal goals;
+    private GameMap map;
+    private Player player;
+    private BattleFacade battleFacade;
+    private int initialTreasureCount;
+    private EntityFactory entityFactory;
+<span class="fc" id="L36">    private boolean isInTick = false;</span>
+    public static final int PLAYER_MOVEMENT = 0;
+    public static final int PLAYER_MOVEMENT_CALLBACK = 1;
+    public static final int AI_MOVEMENT = 2;
+    public static final int AI_MOVEMENT_CALLBACK = 3;
+
+<span class="fc" id="L42">    private int tickCount = 0;</span>
+<span class="fc" id="L43">    private PriorityQueue&lt;ComparableCallback&gt; sub = new PriorityQueue&lt;&gt;();</span>
+<span class="fc" id="L44">    private PriorityQueue&lt;ComparableCallback&gt; addingSub = new PriorityQueue&lt;&gt;();</span>
+
+<span class="fc" id="L46">    private int kills = 0;</span>
+
+<span class="fc" id="L48">    public Game(String dungeonName) {</span>
+<span class="fc" id="L49">        this.name = dungeonName;</span>
+<span class="fc" id="L50">        this.map = new GameMap();</span>
+<span class="fc" id="L51">        this.battleFacade = new BattleFacade();</span>
+<span class="fc" id="L52">    }</span>
+
+    public void init() {
+<span class="fc" id="L55">        this.id = UUID.randomUUID().toString();</span>
+<span class="fc" id="L56">        map.init();</span>
+<span class="fc" id="L57">        this.tickCount = 0;</span>
+<span class="fc" id="L58">        player = map.getPlayer();</span>
+<span class="fc" id="L59">        register((Runnable &amp; Serializable) () -&gt; player.onTick(tickCount), PLAYER_MOVEMENT, &quot;potionQueue&quot;);</span>
+<span class="fc" id="L60">        initialTreasureCount = map.getEntities(Treasure.class).size() + map.getEntities(SunStone.class).size();</span>
+<span class="fc" id="L61">    }</span>
+
+    public Game tick(Direction movementDirection) {
+<span class="fc" id="L64">        registerOnce(</span>
+<span class="fc" id="L65">                (Runnable &amp; Serializable) () -&gt; player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT,</span>
+                &quot;playerMoves&quot;);
+<span class="fc" id="L67">        tick();</span>
+<span class="fc" id="L68">        return this;</span>
+    }
+
+    public Game tick(String itemUsedId) throws InvalidActionException {
+<span class="fc" id="L72">        Entity item = player.getEntity(itemUsedId);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (item == null)</span>
+<span class="fc" id="L74">            throw new InvalidActionException(String.format(&quot;Item with id %s doesn't exist&quot;, itemUsedId));</span>
+<span class="fc bfc" id="L75" title="All 4 branches covered.">        if (!(item instanceof Bomb) &amp;&amp; !(item instanceof Potion))</span>
+<span class="fc" id="L76">            throw new IllegalArgumentException(String.format(&quot;%s cannot be used&quot;, item.getClass()));</span>
+
+<span class="fc" id="L78">        registerOnce((Runnable &amp; Serializable) () -&gt; {</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            if (item instanceof Bomb)</span>
+<span class="fc" id="L80">                player.use((Bomb) item, map);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            if (item instanceof Potion)</span>
+<span class="fc" id="L82">                player.use((Potion) item, tickCount);</span>
+<span class="fc" id="L83">        }, PLAYER_MOVEMENT, &quot;playerUsesItem&quot;);</span>
+<span class="fc" id="L84">        tick();</span>
+<span class="fc" id="L85">        return this;</span>
+    }
+
+    /**
+     * Battle between player and enemy
+     *
+     * @param player
+     * @param enemy
+     */
+    public void battle(Player player, Enemy enemy) {
+<span class="fc" id="L95">        battleFacade.battle(this, player, enemy);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (player.getInitialPlayerHealth() &lt;= 0) {</span>
+<span class="fc" id="L97">            map.destroyEntity(player);</span>
+        }
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (enemy.getInitialEnemyHealth() &lt;= 0) {</span>
+<span class="fc" id="L100">            map.destroyEntity(enemy);</span>
+<span class="fc" id="L101">            kills++;</span>
+        }
+<span class="fc" id="L103">    }</span>
+
+    public Game build(String buildable) throws InvalidActionException {
+<span class="fc" id="L106">        List&lt;String&gt; buildables = player.getBuildables(map);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (!buildables.contains(buildable)) {</span>
+<span class="fc" id="L108">            throw new InvalidActionException(String.format(&quot;%s cannot be built&quot;, buildable));</span>
+        }
+<span class="fc" id="L110">        registerOnce(</span>
+<span class="fc" id="L111">                (Runnable &amp; Serializable) () -&gt; player.build(buildable, entityFactory), PLAYER_MOVEMENT,</span>
+                &quot;playerBuildsItem&quot;);
+<span class="fc" id="L113">        tick();</span>
+<span class="fc" id="L114">        return this;</span>
+    }
+
+    public Game interact(String entityId) throws IllegalArgumentException, InvalidActionException {
+<span class="fc" id="L118">        Entity e = map.getEntity(entityId);</span>
+<span class="pc bpc" id="L119" title="1 of 4 branches missed.">        if (e == null || !(e instanceof Interactable))</span>
+<span class="fc" id="L120">            throw new IllegalArgumentException(&quot;Entity cannot be interacted&quot;);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (!((Interactable) e).isInteractable(player)) {</span>
+<span class="fc" id="L122">            throw new InvalidActionException(&quot;Entity cannot be interacted&quot;);</span>
+        }
+<span class="fc" id="L124">        registerOnce(</span>
+<span class="fc" id="L125">                (Runnable &amp; Serializable) () -&gt; ((Interactable) e).interact(player, this), PLAYER_MOVEMENT,</span>
+                &quot;playerBuildsItem&quot;);
+<span class="fc" id="L127">        tick();</span>
+<span class="fc" id="L128">        return this;</span>
+    }
+
+    public &lt;T extends Entity&gt; long countEntities(Class&lt;T&gt; type) {
+<span class="nc" id="L132">        return map.countEntities(type);</span>
+    }
+
+    public void register(Runnable r, int priority, String id) {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (isInTick)</span>
+<span class="fc" id="L137">            addingSub.add(new ComparableCallback(r, priority, id));</span>
+        else
+<span class="fc" id="L139">            sub.add(new ComparableCallback(r, priority, id));</span>
+<span class="fc" id="L140">    }</span>
+
+    public void registerOnce(Runnable r, int priority, String id) {
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (isInTick)</span>
+<span class="nc" id="L144">            addingSub.add(new ComparableCallback(r, priority, id, true));</span>
+        else
+<span class="fc" id="L146">            sub.add(new ComparableCallback(r, priority, id, true));</span>
+<span class="fc" id="L147">    }</span>
+
+    public void unsubscribe(String id) {
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        for (ComparableCallback c : sub) {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (id.equals(c.getId())) {</span>
+<span class="fc" id="L152">                c.invalidate();</span>
+            }
+<span class="fc" id="L154">        }</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        for (ComparableCallback c : addingSub) {</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">            if (id.equals(c.getId())) {</span>
+<span class="nc" id="L157">                c.invalidate();</span>
+            }
+<span class="fc" id="L159">        }</span>
+<span class="fc" id="L160">    }</span>
+
+    public int tick() {
+<span class="fc" id="L163">        isInTick = true;</span>
+
+        // Create iterable priority queue that preserves order
+<span class="fc" id="L166">        List&lt;ComparableCallback&gt; copyRuns = new ArrayList&lt;ComparableCallback&gt;(sub);</span>
+<span class="fc" id="L167">        copyRuns.sort(Comparator.naturalOrder());</span>
+<span class="fc" id="L168">        copyRuns.forEach(s -&gt; s.run());</span>
+
+<span class="fc" id="L170">        isInTick = false;</span>
+<span class="fc" id="L171">        sub.addAll(addingSub);</span>
+<span class="fc" id="L172">        addingSub = new PriorityQueue&lt;&gt;();</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        sub.removeIf(s -&gt; !s.isValid());</span>
+<span class="fc" id="L174">        tickCount++;</span>
+        // update the weapons/potions duration
+<span class="fc" id="L176">        return tickCount;</span>
+    }
+
+    public int getTick() {
+<span class="fc" id="L180">        return this.tickCount;</span>
+    }
+
+    public String getId() {
+<span class="fc" id="L184">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="nc" id="L188">        this.id = id;</span>
+<span class="nc" id="L189">    }</span>
+
+    public String getName() {
+<span class="fc" id="L192">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L196">        this.name = name;</span>
+<span class="nc" id="L197">    }</span>
+
+    public Goal getGoals() {
+<span class="fc" id="L200">        return goals;</span>
+    }
+
+    public void setGoals(Goal goals) {
+<span class="fc" id="L204">        this.goals = goals;</span>
+<span class="fc" id="L205">    }</span>
+
+    public GameMap getMap() {
+<span class="fc" id="L208">        return map;</span>
+    }
+
+    public void setMap(GameMap map) {
+<span class="fc" id="L212">        this.map = map;</span>
+<span class="fc" id="L213">    }</span>
+
+    public EntityFactory getEntityFactory() {
+<span class="fc" id="L216">        return entityFactory;</span>
+    }
+
+    public void setEntityFactory(EntityFactory factory) {
+<span class="fc" id="L220">        entityFactory = factory;</span>
+<span class="fc" id="L221">    }</span>
+
+    public Player getPlayer() {
+<span class="fc" id="L224">        return player;</span>
+    }
+
+    public void setPlayer(Player player) {
+<span class="nc" id="L228">        this.player = player;</span>
+<span class="nc" id="L229">    }</span>
+
+    public BattleFacade getBattleFacade() {
+<span class="fc" id="L232">        return battleFacade;</span>
+    }
+
+    public void setBattleFacade(BattleFacade battleFacade) {
+<span class="nc" id="L236">        this.battleFacade = battleFacade;</span>
+<span class="nc" id="L237">    }</span>
+
+    public int getInitialTreasureCount() {
+<span class="fc" id="L240">        return initialTreasureCount;</span>
+    }
+
+    public void moveTo(Entity entity, Position nextpos) {
+<span class="fc" id="L244">        map.moveTo(entity, nextpos);</span>
+<span class="fc" id="L245">    }</span>
+
+    public boolean canMoveTo(Entity entity, Position p) {
+<span class="fc" id="L248">        return map.canMoveTo(entity, p);</span>
+    }
+
+    public List&lt;Entity&gt; getEntities(Position nextpos) {
+<span class="fc" id="L252">        return map.getEntities(nextpos);</span>
+    }
+
+    public &lt;T extends Entity&gt; List&lt;T&gt; getEntities(Class&lt;T&gt; type) {
+<span class="fc" id="L256">        return map.getEntities(type);</span>
+    }
+
+    public Position playerPosition() {
+<span class="fc" id="L260">        return player.getPosition();</span>
+    }
+
+    public void addEntity(Entity entity) {
+<span class="fc" id="L264">        map.addEntity(entity);</span>
+<span class="fc" id="L265">    }</span>
+
+    public void remove(InventoryItem item) {
+<span class="fc" id="L268">        player.remove(item);</span>
+<span class="fc" id="L269">    }</span>
+
+    public int getKills() {
+<span class="fc" id="L272">        return kills;</span>
+    }
+
+    public void destroy(Entity entity) {
+<span class="fc" id="L276">        map.destroyEntity(entity);</span>
+<span class="fc" id="L277">    }</span>
+
+    public List&lt;Position&gt; getPlayerAdjacentPositions() {
+<span class="fc" id="L280">        return map.getPlayer().getPreviousPosition().getCardinallyAdjacentPositions();</span>
+    }
+
+    public Position getPlayerPosition() {
+<span class="fc" id="L284">        return map.getPlayer().getPosition();</span>
+    }
+
+    public Position getPlayerPreviousDistinctPosition() {
+<span class="fc" id="L288">        return map.getPlayer().getPreviousDistinctPosition();</span>
+    }
+
+    public Position dijkstraPathFind(Position src, Position dest, Entity entity) {
+<span class="fc" id="L292">        return map.dijkstraPathFind(src, dest, entity);</span>
+    }
+
+    public int getAllyAttack() {
+<span class="fc" id="L296">        return entityFactory.getAllyAttack();</span>
+    }
+
+    public int getAllyDefence() {
+<span class="fc" id="L300">        return entityFactory.getAllyDefence();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Inventory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.inventory</a> &gt; <span class="el_source">Inventory.java</span></div><h1>Inventory.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.inventory;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dungeonmania.entities.BattleItem;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.EntityFactory;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.buildables.Bow;
+import dungeonmania.entities.collectables.Arrow;
+import dungeonmania.entities.collectables.Key;
+import dungeonmania.entities.collectables.SunStone;
+import dungeonmania.entities.collectables.Sword;
+import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.collectables.Wood;
+
+<span class="fc" id="L20">public class Inventory implements Serializable {</span>
+<span class="fc" id="L21">    private List&lt;InventoryItem&gt; items = new ArrayList&lt;&gt;();</span>
+    private int zombies;
+
+    public boolean add(InventoryItem item) {
+<span class="fc" id="L25">        items.add(item);</span>
+<span class="fc" id="L26">        return true;</span>
+    }
+
+    public void remove(InventoryItem item) {
+<span class="fc" id="L30">        items.remove(item);</span>
+<span class="fc" id="L31">    }</span>
+
+    public List&lt;String&gt; getBuildables(int zombieCount) {
+
+<span class="fc" id="L35">        int wood = count(Wood.class);</span>
+<span class="fc" id="L36">        int arrows = count(Arrow.class);</span>
+<span class="fc" id="L37">        int treasure = count(Treasure.class);</span>
+<span class="fc" id="L38">        int keys = count(Key.class);</span>
+<span class="fc" id="L39">        int sunStones = count(SunStone.class);</span>
+<span class="fc" id="L40">        int swords = count(Sword.class);</span>
+<span class="fc" id="L41">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L43">        zombies = zombieCount;</span>
+
+<span class="fc bfc" id="L45" title="All 4 branches covered.">        if (wood &gt;= 1 &amp;&amp; arrows &gt;= 3) {</span>
+<span class="fc" id="L46">            result.add(&quot;bow&quot;);</span>
+        }
+<span class="fc bfc" id="L48" title="All 8 branches covered.">        if (wood &gt;= 2 &amp;&amp; (treasure &gt;= 1 || keys &gt;= 1 || sunStones &gt;= 1)) {</span>
+<span class="fc" id="L49">            result.add(&quot;shield&quot;);</span>
+        }
+<span class="pc bpc" id="L51" title="1 of 12 branches missed.">        if ((wood &gt;= 1 || arrows &gt;= 2) &amp;&amp; (keys &gt;= 1 || treasure &gt;= 1 || sunStones &gt;= 2) &amp;&amp; (sunStones &gt;= 1)) {</span>
+<span class="fc" id="L52">            result.add(&quot;sceptre&quot;);</span>
+        }
+<span class="fc bfc" id="L54" title="All 6 branches covered.">        if (swords &gt;= 1 &amp;&amp; sunStones &gt;= 1 &amp;&amp; zombies == 0) {</span>
+<span class="fc" id="L55">            result.add(&quot;midnight_armour&quot;);</span>
+        }
+<span class="fc" id="L57">        return result;</span>
+    }
+
+    public InventoryItem checkBuildCriteria(Player p, String entity, EntityFactory factory) {
+
+<span class="pc bpc" id="L62" title="1 of 5 branches missed.">        switch (entity) {</span>
+            case &quot;bow&quot;:
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                if (getBuildables(zombies).contains(&quot;bow&quot;)) {</span>
+<span class="fc" id="L65">                    return factory.buildBow(items, this);</span>
+                }
+                break;
+            case &quot;shield&quot;:
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                if (getBuildables(zombies).contains(&quot;shield&quot;)) {</span>
+<span class="fc" id="L70">                    return factory.buildShield(items, this);</span>
+                }
+                break;
+            case &quot;sceptre&quot;:
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                if (getBuildables(zombies).contains(&quot;sceptre&quot;)) {</span>
+<span class="fc" id="L75">                    return factory.buildSceptre(items, this);</span>
+                }
+                break;
+            case &quot;midnight_armour&quot;:
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">                if (getBuildables(zombies).contains(&quot;midnight_armour&quot;)) {</span>
+<span class="fc" id="L80">                    return factory.buildMidnightArmour(items, this);</span>
+                }
+                break;
+            default:
+<span class="nc" id="L84">                return null;</span>
+        }
+<span class="nc" id="L86">        return null;</span>
+    }
+
+    public &lt;T extends InventoryItem&gt; T getFirst(Class&lt;T&gt; itemType) {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (InventoryItem item : items)</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            if (itemType.isInstance(item))</span>
+<span class="fc" id="L92">                return itemType.cast(item);</span>
+<span class="fc" id="L93">        return null;</span>
+    }
+
+    public &lt;T extends InventoryItem&gt; int count(Class&lt;T&gt; itemType) {
+<span class="fc" id="L97">        int count = 0;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        for (InventoryItem item : items)</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (itemType.isInstance(item))</span>
+<span class="fc" id="L100">                count++;</span>
+<span class="fc" id="L101">        return count;</span>
+    }
+
+    public Entity getEntity(String itemUsedId) {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (InventoryItem item : items)</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (((Entity) item).getId().equals(itemUsedId))</span>
+<span class="fc" id="L107">                return (Entity) item;</span>
+<span class="fc" id="L108">        return null;</span>
+    }
+
+    public List&lt;Entity&gt; getEntities() {
+<span class="fc" id="L112">        return items.stream().map(Entity.class::cast).collect(Collectors.toList());</span>
+    }
+
+    public &lt;T&gt; List&lt;T&gt; getEntities(Class&lt;T&gt; clz) {
+<span class="fc" id="L116">        return items.stream().filter(clz::isInstance).map(clz::cast).collect(Collectors.toList());</span>
+    }
+
+    public boolean hasWeapon() {
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">        return getFirst(Sword.class) != null || getFirst(Bow.class) != null;</span>
+    }
+
+    public BattleItem getWeapon() {
+<span class="fc" id="L124">        BattleItem weapon = getFirst(Sword.class);</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        if (weapon == null)</span>
+<span class="nc" id="L126">            return getFirst(Bow.class);</span>
+<span class="fc" id="L127">        return weapon;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

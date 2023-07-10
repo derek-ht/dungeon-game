@@ -1,0 +1,52 @@
+{
+  "entities": [
+    {
+      "x": 0,
+      "y": 0,
+      "type": "player"
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "type": "treasure"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "type": "treasure"
+    },
+    {
+      "key": "1",
+      "x": 3,
+      "y": 0,
+      "type": "key"
+    },
+    {
+      "key": "1",
+      "x": 4,
+      "y": 0,
+      "type": "door"
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "type": "exit"
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "type": "mercenary"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "type": "mercenary"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "type": "mercenary"
+    }
+  ],
+  "goal-condition": {"goal": "exit"}
+}

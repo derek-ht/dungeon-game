@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.DungeonGenerationTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:09" hostname="vx02" time="0.115">
+  <properties/>
+  <testcase name="Test dungeon generation creates exit at bottom right" classname="dungeonmania.mvp.DungeonGenerationTest" time="0.04"/>
+  <testcase name="Test dungeon generation creates player at top left" classname="dungeonmania.mvp.DungeonGenerationTest" time="0.032"/>
+  <testcase name="Test dungeon generation with negative coordinates" classname="dungeonmania.mvp.DungeonGenerationTest" time="0.034"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 30 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

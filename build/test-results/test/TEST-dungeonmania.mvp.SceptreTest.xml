@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.SceptreTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:09" hostname="vx02" time="0.279">
+  <properties/>
+  <testcase name="Test Sceptre can be built and used" classname="dungeonmania.mvp.SceptreTest" time="0.085"/>
+  <testcase name="Test mind control duration" classname="dungeonmania.mvp.SceptreTest" time="0.097"/>
+  <testcase name="Test Sceptre can be built with 2 sunstones" classname="dungeonmania.mvp.SceptreTest" time="0.088"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 17 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 47 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 17 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 27 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

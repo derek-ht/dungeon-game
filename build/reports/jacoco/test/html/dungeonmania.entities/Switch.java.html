@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Switch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities</a> &gt; <span class="el_source">Switch.java</span></div><h1>Switch.java</h1><pre class="source lang-java linenums">package dungeonmania.entities;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import dungeonmania.entities.behaviours.MovedAwayBehaviour;
+import dungeonmania.entities.behaviours.OverlapBehaviour;
+import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+public class Switch extends Entity implements OverlapBehaviour, MovedAwayBehaviour {
+    private boolean activated;
+<span class="fc" id="L16">    private List&lt;Bomb&gt; bombs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">    private List&lt;Logical&gt; logicals = new ArrayList&lt;&gt;();</span>
+
+    public Switch(Position position) {
+<span class="fc" id="L20">        super(position.asLayer(Entity.ITEM_LAYER));</span>
+<span class="fc" id="L21">    }</span>
+
+    public void subscribe(Bomb b) {
+<span class="fc" id="L24">        bombs.add(b);</span>
+<span class="fc" id="L25">    }</span>
+
+    public void subscribe(Bomb bomb, GameMap map) {
+<span class="fc" id="L28">        bombs.add(bomb);</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (activated) {</span>
+<span class="fc" id="L30">            bombs.stream().forEach(b -&gt; b.notify(map));</span>
+        }
+<span class="fc" id="L32">    }</span>
+
+    public void unsubscribe(Bomb b) {
+<span class="fc" id="L35">        bombs.remove(b);</span>
+<span class="fc" id="L36">    }</span>
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+<span class="fc" id="L40">        return true;</span>
+    }
+
+    @Override
+    public void onOverlap(GameMap map, Entity entity) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (entity instanceof Boulder) {</span>
+<span class="fc" id="L46">            activated = true;</span>
+<span class="fc" id="L47">            bombs.stream().forEach(b -&gt; b.notify(map));</span>
+<span class="fc" id="L48">            logicals = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L49">            checkWires(map);</span>
+<span class="fc" id="L50">            Set&lt;Logical&gt; noDupe = new HashSet&lt;&gt;(logicals);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            for (Logical l : noDupe) {</span>
+<span class="fc" id="L52">                long count = logicals.stream().filter(e -&gt; e.equals(l)).count();</span>
+<span class="fc" id="L53">                l.activate(map, count);</span>
+<span class="fc" id="L54">            }</span>
+        }
+
+<span class="fc" id="L57">    }</span>
+
+    @Override
+    public void onMovedAway(GameMap map, Entity entity) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (entity instanceof Boulder) {</span>
+<span class="fc" id="L62">            activated = false;</span>
+<span class="fc" id="L63">            Set&lt;Logical&gt; noDupe = new HashSet&lt;&gt;(logicals);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            for (Logical l : noDupe) {</span>
+<span class="fc" id="L65">                long count = logicals.stream().filter(e -&gt; e.equals(l)).count();</span>
+<span class="fc" id="L66">                l.activate(map, -count);</span>
+<span class="fc" id="L67">            }</span>
+        }
+
+<span class="fc" id="L70">    }</span>
+
+    public boolean isActivated() {
+<span class="fc" id="L73">        return activated;</span>
+    }
+
+    public void checkWires(GameMap map) {
+<span class="fc" id="L77">        List&lt;Position&gt; pos = getCardinallyAdjacentPositions();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        for (Position p : pos) {</span>
+<span class="fc" id="L79">            List&lt;Entity&gt; entities = map.getEntities(p);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            for (Entity e : entities) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">                if (e instanceof Wire) {</span>
+<span class="fc" id="L82">                    ((Wire) e).conduct(map, p, logicals);</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                } else if (e instanceof Logical) {</span>
+<span class="nc" id="L84">                    logicals.add((Logical) e);</span>
+                }
+<span class="fc" id="L86">            }</span>
+<span class="fc" id="L87">        }</span>
+<span class="fc" id="L88">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

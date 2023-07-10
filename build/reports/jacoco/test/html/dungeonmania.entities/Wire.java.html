@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wire.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities</a> &gt; <span class="el_source">Wire.java</span></div><h1>Wire.java</h1><pre class="source lang-java linenums">package dungeonmania.entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+public class Wire extends Entity {
+<span class="fc" id="L10">    private ArrayList&lt;Position&gt; checked = new ArrayList&lt;&gt;();</span>
+
+    public Wire(Position position) {
+<span class="fc" id="L13">        super(position);</span>
+<span class="fc" id="L14">    }</span>
+
+    public void conduct(GameMap map, Position pos, List&lt;Logical&gt; logicals) {
+<span class="fc" id="L17">        List&lt;Position&gt; posList = getCardinallyAdjacentPositions();</span>
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        for (Position p : posList) {</span>
+<span class="fc" id="L20">            Entity e = map.logicEntity(p);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            if (checked.contains(p)) {</span>
+<span class="fc" id="L22">                return;</span>
+            }
+
+<span class="fc" id="L25">            checked.add(p);</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (e instanceof Wire) {</span>
+<span class="fc" id="L28">                ((Wire) e).conduct(map, p, logicals);</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            } else if (e instanceof Logical) {</span>
+<span class="fc" id="L30">                logicals.add((Logical) e);</span>
+            }
+<span class="fc" id="L32">        }</span>
+<span class="fc" id="L33">        checked = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">    }</span>
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+<span class="nc" id="L38">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

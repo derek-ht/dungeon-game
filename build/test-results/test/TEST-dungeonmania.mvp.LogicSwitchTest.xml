@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.LogicSwitchTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:14" hostname="vx02" time="0.502">
+  <properties/>
+  <testcase name="Test Two switches each connected to 2 wires" classname="dungeonmania.mvp.LogicSwitchTest" time="0.072"/>
+  <testcase name="Test co_and logic works" classname="dungeonmania.mvp.LogicSwitchTest" time="0.056"/>
+  <testcase name="Test switch door works" classname="dungeonmania.mvp.LogicSwitchTest" time="0.045"/>
+  <testcase name="Test switch door works and lightbulb from one switch" classname="dungeonmania.mvp.LogicSwitchTest" time="0.053"/>
+  <testcase name="Test and logic works" classname="dungeonmania.mvp.LogicSwitchTest" time="0.046"/>
+  <testcase name="Test xor logic works" classname="dungeonmania.mvp.LogicSwitchTest" time="0.027"/>
+  <testcase name="Test switch door works and lightbulb from one switch but one fails condition" classname="dungeonmania.mvp.LogicSwitchTest" time="0.078"/>
+  <testcase name="Test or logic works" classname="dungeonmania.mvp.LogicSwitchTest" time="0.093"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 42 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 14 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 20 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 19 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 19 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 29 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 19 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 14 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 13 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 7 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 41 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 65 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 19 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

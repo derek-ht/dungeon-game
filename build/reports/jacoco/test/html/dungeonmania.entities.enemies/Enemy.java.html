@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Enemy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.enemies</a> &gt; <span class="el_source">Enemy.java</span></div><h1>Enemy.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.enemies;
+
+import dungeonmania.Game;
+import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.Battleable;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.behaviours.DestroyBehaviour;
+import dungeonmania.entities.behaviours.OverlapBehaviour;
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+public abstract class Enemy extends Entity implements Battleable, OverlapBehaviour, DestroyBehaviour {
+    private BattleStatistics battleStatistics;
+<span class="fc" id="L15">    private int movementFactor = -1;</span>
+<span class="fc" id="L16">    private int stuckDuration = 0;</span>
+
+    public Enemy(Position position, double health, double attack) {
+<span class="fc" id="L19">        super(position.asLayer(Entity.CHARACTER_LAYER));</span>
+<span class="fc" id="L20">        battleStatistics = new BattleStatistics(</span>
+                health,
+                attack,
+                0,
+                BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER,
+                BattleStatistics.DEFAULT_ENEMY_DAMAGE_REDUCER);
+<span class="fc" id="L26">    }</span>
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+<span class="fc" id="L30">        return entity instanceof Player;</span>
+    }
+
+    @Override
+    public BattleStatistics getBattleStatistics() {
+<span class="fc" id="L35">        return battleStatistics;</span>
+    }
+
+    @Override
+    public void onOverlap(GameMap map, Entity entity) {
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if (entity instanceof Player) {</span>
+<span class="fc" id="L41">            Player player = (Player) entity;</span>
+<span class="fc" id="L42">            map.battle(player, this);</span>
+        }
+<span class="fc" id="L44">    }</span>
+
+    @Override
+    public void onDestroy(GameMap map) {
+<span class="fc" id="L48">        map.unsubscribe(getId());</span>
+<span class="fc" id="L49">    }</span>
+
+    public abstract void move(Game game);
+
+    public double getInitialEnemyHealth() {
+<span class="fc" id="L54">        return battleStatistics.getHealth();</span>
+    }
+
+    public boolean isStatsEnabled() {
+<span class="fc" id="L58">        return battleStatistics.isEnabled();</span>
+    }
+
+    public void updateHealth(double health) {
+<span class="fc" id="L62">        battleStatistics.setHealth(health);</span>
+<span class="fc" id="L63">    }</span>
+
+    public void setMovementFactor(int movementFactor) {
+<span class="fc" id="L66">        this.movementFactor = movementFactor;</span>
+<span class="fc" id="L67">    }</span>
+
+    public boolean isStuck() {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (stuckDuration &lt; movementFactor) {</span>
+<span class="fc" id="L71">            stuckDuration++;</span>
+<span class="fc" id="L72">            return true;</span>
+        } else {
+<span class="fc" id="L74">            stuckDuration = 0;</span>
+<span class="fc" id="L75">            movementFactor = -1;</span>
+<span class="fc" id="L76">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

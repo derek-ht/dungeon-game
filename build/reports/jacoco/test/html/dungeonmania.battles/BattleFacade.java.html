@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BattleFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.battles</a> &gt; <span class="el_source">BattleFacade.java</span></div><h1>BattleFacade.java</h1><pre class="source lang-java linenums">package dungeonmania.battles;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dungeonmania.Game;
+import dungeonmania.entities.BattleItem;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.response.models.BattleResponse;
+import dungeonmania.response.models.ResponseBuilder;
+import dungeonmania.util.NameConverter;
+
+<span class="fc" id="L17">public class BattleFacade implements Serializable {</span>
+<span class="fc" id="L18">    private List&lt;BattleResponse&gt; battleResponses = new ArrayList&lt;&gt;();</span>
+
+    public void battle(Game game, Player player, Enemy enemy) {
+        // 0. init
+<span class="fc" id="L22">        double initialPlayerHealth = player.getInitialPlayerHealth();</span>
+<span class="fc" id="L23">        double initialEnemyHealth = enemy.getInitialEnemyHealth();</span>
+<span class="fc" id="L24">        String enemyString = NameConverter.toSnakeCase(enemy);</span>
+
+        // 1. apply buff provided by the game and player's inventory
+        // getting buffing amount
+<span class="fc" id="L28">        List&lt;BattleItem&gt; battleItems = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L29">        BattleStatistics playerBuff = new BattleStatistics(0, 0, 0, 1, 1, false, true);</span>
+<span class="fc" id="L30">        playerBuff = player.applyBuffs(battleItems, playerBuff);</span>
+
+        // 2. Battle the two stats
+<span class="fc" id="L33">        BattleStatistics playerBattleStatistics = player.updateStats(playerBuff);</span>
+
+        // // Apply ally buffs
+<span class="fc" id="L36">        playerBattleStatistics = BattleStatistics.applyBuff(playerBattleStatistics,</span>
+<span class="fc" id="L37">                player.getAllyBuffs(game));</span>
+
+<span class="fc" id="L39">        BattleStatistics enemyBattleStatistics = enemy.getBattleStatistics();</span>
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">        if (!player.isStatsEnabled(playerBattleStatistics) || !enemy.isStatsEnabled())</span>
+<span class="fc" id="L41">            return;</span>
+
+<span class="fc" id="L43">        List&lt;BattleRound&gt; rounds = BattleStatistics.battle(playerBattleStatistics, enemyBattleStatistics);</span>
+
+        // 3. update health to the actual statistics
+<span class="fc" id="L46">        player.updateHealth(playerBattleStatistics.getHealth());</span>
+<span class="fc" id="L47">        enemy.updateHealth(enemyBattleStatistics.getHealth());</span>
+
+        // 4. call to decrease durability of items
+<span class="fc" id="L50">        player.useItems(game, battleItems);</span>
+
+        // 5. Log the battle - solidate it to be a battle response
+<span class="fc" id="L53">        battleResponses.add(new BattleResponse(</span>
+                enemyString,
+<span class="fc" id="L55">                rounds.stream()</span>
+<span class="fc" id="L56">                        .map(ResponseBuilder::getRoundResponse)</span>
+<span class="fc" id="L57">                        .collect(Collectors.toList()),</span>
+<span class="fc" id="L58">                battleItems.stream()</span>
+<span class="fc" id="L59">                        .map(Entity.class::cast)</span>
+<span class="fc" id="L60">                        .map(ResponseBuilder::getItemResponse)</span>
+<span class="fc" id="L61">                        .collect(Collectors.toList()),</span>
+                initialPlayerHealth,
+                initialEnemyHealth));
+<span class="fc" id="L64">    }</span>
+
+    public List&lt;BattleResponse&gt; getBattleResponses() {
+<span class="fc" id="L67">        return battleResponses;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

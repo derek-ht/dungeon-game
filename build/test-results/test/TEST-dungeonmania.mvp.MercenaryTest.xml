@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.MercenaryTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:18" hostname="vx02" time="0.403">
+  <properties/>
+  <testcase name="Test mercenaries can not move through closed doors" classname="dungeonmania.mvp.MercenaryTest" time="0.077"/>
+  <testcase name="Testing a mercenary can be bribed with a certain amount" classname="dungeonmania.mvp.MercenaryTest" time="0.05"/>
+  <testcase name="Test mercenary stops if they cannot move any closer to the player" classname="dungeonmania.mvp.MercenaryTest" time="0.067"/>
+  <testcase name="Testing a mercenary can be bribed within a radius" classname="dungeonmania.mvp.MercenaryTest" time="0.059"/>
+  <testcase name="Test mercenary moves around a wall to get to the player" classname="dungeonmania.mvp.MercenaryTest" time="0.028"/>
+  <testcase name="Test mercenary in line with Player moves towards them" classname="dungeonmania.mvp.MercenaryTest" time="0.055"/>
+  <testcase name="Testing an allied mercenary does not battle the player" classname="dungeonmania.mvp.MercenaryTest" time="0.052"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 39 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 19 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 29 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 15 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 52 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 7 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 15 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 12 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 11 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 15 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 8 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 38 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

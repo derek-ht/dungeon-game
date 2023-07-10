@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logical.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities</a> &gt; <span class="el_source">Logical.java</span></div><h1>Logical.java</h1><pre class="source lang-java linenums">package dungeonmania.entities;
+
+import java.util.List;
+
+import dungeonmania.entities.logicConditions.AndCondition;
+import dungeonmania.entities.logicConditions.CoAndCondition;
+import dungeonmania.entities.logicConditions.Condition;
+import dungeonmania.entities.logicConditions.OrCondition;
+import dungeonmania.entities.logicConditions.XorCondition;
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+public class Logical extends Entity {
+<span class="fc" id="L14">    private Boolean activated = false;</span>
+<span class="fc" id="L15">    private int connected = 0;</span>
+    private String logic;
+    private Condition condition;
+    private long sameTickCount;
+
+    public Logical(Position position, String logic) {
+<span class="fc" id="L21">        super(position);</span>
+<span class="fc" id="L22">        this.logic = logic.toLowerCase();</span>
+<span class="fc" id="L23">        setCondition(this.logic);</span>
+<span class="fc" id="L24">    }</span>
+
+    public void activate(GameMap map, long count) {
+<span class="fc" id="L27">        int baseConnections = getConnections(getPosition(), map);</span>
+
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (Math.abs(count) &gt;= 2) {</span>
+<span class="fc" id="L30">            sameTickCount += count;</span>
+        }
+
+<span class="fc" id="L33">        connected += count;</span>
+<span class="fc" id="L34">        activated = condition.checkConditions(connected, baseConnections, count, sameTickCount);</span>
+<span class="fc" id="L35">    }</span>
+
+    public int getConnections(Position position, GameMap map) {
+<span class="fc" id="L38">        List&lt;Position&gt; posList = position.getCardinallyAdjacentPositions();</span>
+<span class="fc" id="L39">        int count = 0;</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (Position p : posList) {</span>
+<span class="fc" id="L42">            List&lt;Entity&gt; entities = map.getEntities(p);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            for (Entity e : entities) {</span>
+<span class="pc bpc" id="L44" title="1 of 4 branches missed.">                if (e instanceof Wire || e instanceof Switch) {</span>
+<span class="fc" id="L45">                    count++;</span>
+                }
+<span class="fc" id="L47">            }</span>
+<span class="fc" id="L48">        }</span>
+
+<span class="fc" id="L50">        return count;</span>
+    }
+
+    public Boolean isActivated() {
+<span class="fc" id="L54">        return activated;</span>
+    }
+
+    public void setCondition(String logic) {
+<span class="pc bpc" id="L58" title="1 of 5 branches missed.">        switch (logic) {</span>
+            case &quot;and&quot;:
+<span class="fc" id="L60">                condition = new AndCondition();</span>
+<span class="fc" id="L61">                break;</span>
+            case &quot;or&quot;:
+<span class="fc" id="L63">                condition = new OrCondition();</span>
+<span class="fc" id="L64">                break;</span>
+            case &quot;xor&quot;:
+<span class="fc" id="L66">                condition = new XorCondition();</span>
+<span class="fc" id="L67">                break;</span>
+            case &quot;co_and&quot;:
+<span class="fc" id="L69">                condition = new CoAndCondition();</span>
+<span class="fc" id="L70">                break;</span>
+            default:
+<span class="nc" id="L72">                return;</span>
+        }
+<span class="fc" id="L74">    }</span>
+
+    public Boolean getActivated() {
+<span class="fc" id="L77">        return activated;</span>
+    }
+
+    public void setActivated(Boolean activated) {
+<span class="nc" id="L81">        this.activated = activated;</span>
+<span class="nc" id="L82">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

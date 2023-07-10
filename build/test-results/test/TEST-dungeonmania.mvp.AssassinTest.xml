@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.AssassinTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:09" hostname="vx02" time="0.13">
+  <properties/>
+  <testcase name="Test Assassin bribe works with 100% fail rate" classname="dungeonmania.mvp.AssassinTest" time="0.077"/>
+  <testcase name="Test Assassin bribe works with 0% fail rate" classname="dungeonmania.mvp.AssassinTest" time="0.046"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 40 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 11 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.PortalsTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:17" hostname="vx02" time="0.342">
+  <properties/>
+  <testcase name="Test portals work both ways" classname="dungeonmania.mvp.PortalsTest" time="0.045"/>
+  <testcase name="Test portal matching when there are multiple portals" classname="dungeonmania.mvp.PortalsTest" time="0.072"/>
+  <testcase name="Test chain teleporting between multiple portals" classname="dungeonmania.mvp.PortalsTest" time="0.051"/>
+  <testcase name="Test player cannot teleport when the exit portal is surrounded by walls" classname="dungeonmania.mvp.PortalsTest" time="0.03"/>
+  <testcase name="Test portal has no effect on spiders" classname="dungeonmania.mvp.PortalsTest" time="0.078"/>
+  <testcase name="Test portal has no effect on zombies" classname="dungeonmania.mvp.PortalsTest" time="0.055"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 19 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 16 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 41 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 30 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 9 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 41 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 17 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 11 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 43 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 26 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

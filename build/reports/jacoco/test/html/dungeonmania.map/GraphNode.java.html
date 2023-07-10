@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GraphNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.map</a> &gt; <span class="el_source">GraphNode.java</span></div><h1>GraphNode.java</h1><pre class="source lang-java linenums">package dungeonmania.map;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import dungeonmania.entities.Entity;
+import dungeonmania.util.Position;
+
+public class GraphNode implements Serializable {
+    private Position position;
+<span class="fc" id="L12">    private List&lt;Entity&gt; entities = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L14">    private int weight = 1;</span>
+
+    public GraphNode(Entity entity, int weight) {
+<span class="fc" id="L17">        this(entity, entity.getPosition(), weight);</span>
+<span class="fc" id="L18">    }</span>
+
+    public GraphNode(Entity entity) {
+<span class="fc" id="L21">        this(entity, entity.getPosition(), 1);</span>
+<span class="fc" id="L22">    }</span>
+
+<span class="fc" id="L24">    public GraphNode(Entity entity, Position p, int weight) {</span>
+<span class="fc" id="L25">        this.position = p;</span>
+<span class="fc" id="L26">        this.entities.add(entity);</span>
+<span class="fc" id="L27">        this.weight = weight;</span>
+<span class="fc" id="L28">    }</span>
+
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+<span class="pc bpc" id="L31" title="1 of 4 branches missed.">        return entities.size() == 0 || entities.stream().allMatch(e -&gt; e.canMoveOnto(map, entity));</span>
+    }
+
+    public int getWeight() {
+<span class="fc" id="L35">        return weight;</span>
+    }
+
+    public void addEntity(Entity entity) {
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (!this.entities.contains(entity))</span>
+<span class="fc" id="L40">            this.entities.add(entity);</span>
+<span class="fc" id="L41">    }</span>
+
+    public void removeEntity(Entity entity) {
+<span class="fc" id="L44">        entities.remove(entity);</span>
+<span class="fc" id="L45">    }</span>
+
+    public int size() {
+<span class="fc" id="L48">        return entities.size();</span>
+    }
+
+    public void mergeNode(GraphNode node) {
+<span class="fc" id="L52">        List&lt;Entity&gt; es = node.entities;</span>
+<span class="fc" id="L53">        es.forEach(this::addEntity);</span>
+<span class="fc" id="L54">    }</span>
+
+    public List&lt;Entity&gt; getEntities() {
+<span class="fc" id="L57">        return entities;</span>
+    }
+
+    public Position getPosition() {
+<span class="fc" id="L61">        return position;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

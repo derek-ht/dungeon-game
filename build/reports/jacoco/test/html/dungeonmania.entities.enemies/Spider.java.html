@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Spider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.enemies</a> &gt; <span class="el_source">Spider.java</span></div><h1>Spider.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.enemies;
+
+import java.util.List;
+
+import dungeonmania.Game;
+import dungeonmania.entities.Boulder;
+import dungeonmania.entities.Entity;
+import dungeonmania.util.Position;
+
+public class Spider extends Enemy {
+
+    private List&lt;Position&gt; movementTrajectory;
+    private int nextPositionElement;
+    private boolean forward;
+
+    public static final int DEFAULT_SPAWN_RATE = 0;
+    public static final double DEFAULT_ATTACK = 5;
+    public static final double DEFAULT_HEALTH = 10;
+
+    public Spider(Position position, double health, double attack) {
+<span class="fc" id="L21">        super(position.asLayer(Entity.DOOR_LAYER + 1), health, attack);</span>
+        /**
+         * Establish spider movement trajectory Spider moves as follows:
+         * 8 1 2 10/12 1/9 2/8
+         * 7 S 3 11 S 3/7
+         * 6 5 4 B 5 4/6
+         */
+<span class="fc" id="L28">        movementTrajectory = position.getAdjacentPositions();</span>
+<span class="fc" id="L29">        nextPositionElement = 1;</span>
+<span class="fc" id="L30">        forward = true;</span>
+<span class="fc" id="L31">    };</span>
+
+    private void updateNextPosition() {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (forward) {</span>
+<span class="fc" id="L35">            nextPositionElement++;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (nextPositionElement == 8) {</span>
+<span class="fc" id="L37">                nextPositionElement = 0;</span>
+            }
+        } else {
+<span class="fc" id="L40">            nextPositionElement--;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if (nextPositionElement == -1) {</span>
+<span class="fc" id="L42">                nextPositionElement = 7;</span>
+            }
+        }
+<span class="fc" id="L45">    }</span>
+
+    @Override
+    public void move(Game game) {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (isStuck())</span>
+<span class="fc" id="L50">            return;</span>
+<span class="fc" id="L51">        Position nextPos = movementTrajectory.get(nextPositionElement);</span>
+<span class="fc" id="L52">        List&lt;Entity&gt; entities = game.getEntities(nextPos);</span>
+<span class="pc bpc" id="L53" title="1 of 6 branches missed.">        if (entities != null &amp;&amp; entities.size() &gt; 0 &amp;&amp; entities.stream().anyMatch(e -&gt; e instanceof Boulder)) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            forward = !forward;</span>
+<span class="fc" id="L55">            updateNextPosition();</span>
+<span class="fc" id="L56">            updateNextPosition();</span>
+        }
+<span class="fc" id="L58">        nextPos = movementTrajectory.get(nextPositionElement);</span>
+<span class="fc" id="L59">        entities = game.getEntities(nextPos);</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (entities == null</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                || entities.size() == 0</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                || entities.stream().allMatch(e -&gt; e.canMoveOnto(game.getMap(), this))) {</span>
+<span class="fc" id="L63">            game.moveTo(this, nextPos);</span>
+<span class="fc" id="L64">            updateNextPosition();</span>
+        }
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

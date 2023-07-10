@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.SunStoneTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:09" hostname="vx02" time="0.185">
+  <properties/>
+  <testcase name="Tests sunStone can be used to open doors" classname="dungeonmania.mvp.SunStoneTest" time="0.072"/>
+  <testcase name="Tests sunStone as a key/treasure substitute for buildables" classname="dungeonmania.mvp.SunStoneTest" time="0.04"/>
+  <testcase name="Tests sunStone can't be used to bribe" classname="dungeonmania.mvp.SunStoneTest" time="0.07"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 32 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 14 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 17 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 17 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 39 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

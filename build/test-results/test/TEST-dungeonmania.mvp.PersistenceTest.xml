@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.PersistenceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:17" hostname="vx02" time="0.392">
+  <properties/>
+  <testcase name="Tests if inventory persists" classname="dungeonmania.mvp.PersistenceTest" time="0.276"/>
+  <testcase name="Mercenaries remain bribed and battles" classname="dungeonmania.mvp.PersistenceTest" time="0.099"/>
+  <testcase name="Test IllegalArgumentException from loadGame" classname="dungeonmania.mvp.PersistenceTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 28 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 20 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 26 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 8 ms to scan 2 urls, producing 118 keys and 118 values
+]]></system-err>
+</testsuite>

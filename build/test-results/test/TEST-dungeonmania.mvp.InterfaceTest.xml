@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.InterfaceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-12-01T13:58:18" hostname="vx02" time="0.06">
+  <properties/>
+  <testcase name="Testing newGame interface method, normal operation" classname="dungeonmania.mvp.InterfaceTest" time="0.043"/>
+  <testcase name="Testing newGame on a nonexistent dungeon" classname="dungeonmania.mvp.InterfaceTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 15 ms to scan 2 urls, producing 153 keys and 153 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 118 keys and 118 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 8 ms to scan 2 urls, producing 153 keys and 153 values
+]]></system-err>
+</testsuite>
